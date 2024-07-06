@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-function GitHubRepoViewer() {
+function Dashboard() {
   const [repoUrl, setRepoUrl] = useState('');
-  const [repoContents, setRepoContents] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [accessToken, setAccessToken] = useState('');
+  const [repoContents, setRepoContents] = useState([]);
   const [fileContent, setFileContent] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const fetchRepoContents = async (owner, repo, path = '') => {
     setLoading(true);
@@ -22,13 +22,25 @@ function GitHubRepoViewer() {
       const contents = response.data;
 
       // Process contents to separate files and directories
-      const processedContents = contents.map(item => ({
-        name: item.name,
-        type: item.type,
-        path: item.path,
-        contents: [],
-        isExpandable: item.type === 'dir',
-        isExpanded: false,
+      const processedContents = await Promise.all(contents.map(async item => {
+        if (item.type === 'dir') {
+          // Recursively fetch contents for nested directories
+          const nestedContents = await fetchRepoContents(owner, repo, item.path);
+          return {
+            name: item.name,
+            type: item.type,
+            path: item.path,
+            contents: nestedContents, // Store nested contents
+            isExpandable: true,
+            isExpanded: false,
+          };
+        } else {
+          return {
+            name: item.name,
+            type: item.type,
+            path: item.path,
+          };
+        }
       }));
 
       return processedContents;
@@ -83,115 +95,105 @@ function GitHubRepoViewer() {
     }
   };
 
-  const updateContents = (contents, path, newContents) => {
-    return contents.map(item => {
-      if (item.path === path) {
-        return {
-          ...item,
-          contents: newContents,
-          isExpanded: !item.isExpanded, // Toggle expanded state
-        };
-      } else if (item.isExpandable) {
-        return {
-          ...item,
-          contents: updateContents(item.contents, path, newContents),
-        };
-      }
-      return item;
-    });
-  };
-
-  const toggleExpand = async (item) => {
-    if (item.type === 'file') {
-      const owner = repoUrl.split('/')[3];
-      const repo = repoUrl.split('/')[4];
-      const path = item.path;
-
-      await fetchFileContent(owner, repo, path);
-    } else {
-      const owner = repoUrl.split('/')[3];
-      const repo = repoUrl.split('/')[4];
-      const path = item.path;
-
+  const handleItemClick = async (item) => {
+    if (item.type === 'dir') {
       if (!item.isExpanded) {
-        // Fetch contents if not expanded
+        // Fetch contents for the directory if it's expandable and not yet expanded
+        const owner = repoUrl.split('/')[3];
+        const repo = repoUrl.split('/')[4];
+        const path = item.path;
+
         const expandedContents = await fetchRepoContents(owner, repo, path);
-        setRepoContents(prevContents => updateContents(prevContents, path, expandedContents));
+
+        // Update item with expanded contents
+        item.contents = expandedContents;
+        item.isExpanded = true;
+
+        // Force update state to reflect changes
+        setRepoContents([...repoContents]);
       } else {
-        // Collapse folder if already expanded
-        setRepoContents(prevContents => updateContents(prevContents, path, []));
-        setFileContent(''); // Clear file content when collapsing
+        // Collapse the directory if it's already expanded
+        item.isExpanded = false;
+
+        // Force update state to reflect changes
+        setRepoContents([...repoContents]);
       }
+    } else if (item.type === 'file') {
+      // Fetch file content when clicking on a file
+      const owner = repoUrl.split('/')[3];
+      const repo = repoUrl.split('/')[4];
+      await fetchFileContent(owner, repo, item.path);
     }
   };
 
-  const renderContents = (contents) => {
-    return (
-      <ul className="space-y-2">
-        {contents.map(item => (
-          <li key={item.path} className="flex items-center">
-            {item.type === 'file' ? (
-              <span
-                className="cursor-pointer text-blue-500 hover:underline"
-                onClick={() => toggleExpand(item)}
-              >
-                {item.name}
-              </span>
-            ) : (
-              <div className="flex items-center">
-                <span
-                  className="cursor-pointer text-blue-500 hover:underline"
-                  onClick={() => toggleExpand(item)}
-                >
-                  {item.isExpanded ? '[-] ' : '[+] '}
-                  {item.name}/
-                </span>
-                {item.isExpanded && renderContents(item.contents)}
-              </div>
-            )}
-          </li>
-        ))}
-      </ul>
-    );
-  };
-
   return (
-    <div className="max-w-lg mx-auto p-4 bg-white rounded shadow-lg">
-      <input
-        type="text"
-        value={repoUrl}
-        onChange={(e) => setRepoUrl(e.target.value)}
-        placeholder="Enter GitHub repository URL"
-        className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
-      />
-      <input
-        type="text"
-        value={accessToken}
-        onChange={(e) => setAccessToken(e.target.value)}
-        placeholder="Enter GitHub Personal Access Token"
-        className="w-full mt-2 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
-      />
-      <button
-        onClick={handleFetchRepo}
-        className="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none"
-      >
-        Fetch Repository
-      </button>
+    <div className="flex h-screen">
+      {/* Sidebar */}
+      <aside className="bg-gray-800 text-white p-4 w-1/4 overflow-y-auto">
+        <h2 className="text-xl font-semibold mb-4">Folders</h2>
+        <ul className="space-y-2">
+          {repoContents.map(item => (
+            <li key={item.path}>
+              <button
+                className="w-full text-left text-gray-300 hover:text-white"
+                onClick={() => handleItemClick(item)}
+              >
+                {item.name} {item.isExpandable && (item.isExpanded ? '[-]' : '[+]')}
+              </button>
+              {item.isExpanded && item.contents && (
+                <ul className="pl-4">
+                  {item.contents.map(subItem => (
+                    <li key={subItem.path}>
+                      <button
+                        className="w-full text-left text-gray-300 hover:text-white"
+                        onClick={() => handleItemClick(subItem)}
+                      >
+                        {subItem.name} {subItem.isExpandable && (subItem.isExpanded ? '[-]' : '[+]')}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))}
+        </ul>
+      </aside>
 
-      {loading && <p className="mt-4 text-center">Loading...</p>}
-      
-      <div className="mt-4">
-        {renderContents(repoContents)}
-      </div>
-
-      {fileContent && (
-        <div className="mt-4">
-          <h3 className="text-lg font-semibold mb-2">File Content:</h3>
-          <pre className="bg-gray-100 p-4 rounded">{fileContent}</pre>
+      {/* Main Content */}
+      <main className="flex-1 p-4">
+        {/* TopBar */}
+        <div className="flex items-center mb-4">
+          <input
+            type="text"
+            value={repoUrl}
+            onChange={(e) => setRepoUrl(e.target.value)}
+            placeholder="Enter GitHub repository URL"
+            className="w-96 px-3 py-2 border border-gray-300 rounded-l focus:outline-none focus:border-blue-500"
+          />
+          <input
+            type="text"
+            value={accessToken}
+            onChange={(e) => setAccessToken(e.target.value)}
+            placeholder="Enter GitHub Personal Access Token"
+            className="px-3 py-2 border border-gray-300 rounded-r focus:outline-none focus:border-blue-500"
+          />
+          <button
+            onClick={handleFetchRepo}
+            className="px-4 py-2 ml-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none"
+          >
+            Fetch Repository
+          </button>
         </div>
-      )}
+
+        {/* File Content */}
+        {loading ? (
+          <p className="text-center">Loading...</p>
+        ) : (
+          <pre className="bg-gray-100 p-4 rounded">{fileContent}</pre>
+        )}
+      </main>
     </div>
   );
 }
 
-export default GitHubRepoViewer;
+export default Dashboard;
