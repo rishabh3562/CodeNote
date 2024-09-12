@@ -14,11 +14,26 @@ const NotePage = lazy(() => import("./pages/NotePage"));
 const RepoStructure = lazy(() => import("./components/RepoStructure"));
 const GitHubRepoViewer = lazy(() => import("./pages/GitHubRepoViewer"));
 const GitHubRepoViewerv1 = lazy(() => import("./pages/GtihubRepoViewerv1"));
+const MarkdownEditor = lazy(() => import("./pages/MarkDownEditor"));
 const WebRouter = createBrowserRouter([
   {
     path: "/",
     element: <GitHubRepoViewer />,
     
+  },{
+    path: "/v1",
+    element: <GitHubRepoViewerv1 />,
+  }
+  ,
+  {
+    path: "/markdown",
+    element: (
+      <BreadcrumbProvider>
+        <Suspense fallback={<div>Loading...</div>}>
+          <MarkdownEditor />
+        </Suspense>
+      </BreadcrumbProvider>
+    ),
   },
   {
     path: "/projects/:projectId",
