@@ -1,23 +1,31 @@
 {
-  "name": "codenote_backend",
+  "name": "codenote-backend",
   "version": "1.0.0",
-  "description": "backend for the codenote folder ",
-  "main": "server.js",
+  "description": "backend for the project ",
+  "main": "api/gateway/src/index.js",
   "scripts": {
-    "test": "npm test",
-    "start": "node server.js",
-    "dev": "nodemon --env-file=.env server.js",
-    "server": "nodemon server.js"
+    "install": "npm install && turbo run install",
+    "start": "turbo run start",
+    "test": "npm run test",
+    "build": "turbo run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rishabh3562/CodeNote.git"
   },
   "author": "Rishabh Dubey",
   "license": "MIT",
-  "dependencies": {
-    "aws-sdk": "^2.1655.0",
-    "axios": "^1.7.2",
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
-    "express": "^4.19.2",
-    "http-proxy-middleware": "^3.0.0",
-    "mongoose": "^8.4.5"
-  }
+  "bugs": {
+    "url": "https://github.com/rishabh3562/CodeNote/issues"
+  },
+  "homepage": "https://github.com/rishabh3562/CodeNote#readme",
+  "private": true,
+  "workspaces": [
+    "api-gateway",
+    "services/user",
+    "services/llm",
+    "common",
+    "configs",
+    "monitoring"
+  ]
 }
