@@ -1,13 +1,18 @@
 {
-  "name": "codenote-backend",
+  "name": "codenote_backend_root",
   "version": "1.0.0",
-  "description": "backend for the project ",
+  "description": "root package.json",
   "main": "api/gateway/src/index.js",
   "scripts": {
-    "install": "npm install && turbo run install",
-    "start": "turbo run start",
     "test": "npm run test",
-    "build": "turbo run build"
+    "install:sub": "node start.js",
+    "start:gateway": "cd api/gateway && npm start",
+    "start:user": "cd services/user && npm start",
+    "start:llm": "cd services/llm && npm start",
+    "start": "npm run start:gateway & npm run start:user & npm run start:llm",
+    "gateway": "node api/gateway/src/index.js",
+    "sub": "cd api/gateway && npm install && cd ../../services/user && npm install && cd ../llm && npm install"
+  ,"gateway-i":"cd api/gateway && npm i"
   },
   "repository": {
     "type": "git",
@@ -19,13 +24,5 @@
     "url": "https://github.com/rishabh3562/CodeNote/issues"
   },
   "homepage": "https://github.com/rishabh3562/CodeNote#readme",
-  "private": true,
-  "workspaces": [
-    "api-gateway",
-    "services/user",
-    "services/llm",
-    "common",
-    "configs",
-    "monitoring"
-  ]
+    "type": "module"
 }
