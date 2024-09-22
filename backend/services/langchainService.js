@@ -1,21 +1,21 @@
-const {ChatOpenAI } =require('@langchain/openai')
-
-
+import { ChatOpenAI } from '@langchain/openai';
 
 const model = new ChatOpenAI({
     apiKey: process.env.OPENAI_API_KEY,
     modelName: "gpt-3.5-turbo-instruct",
-  });
-  const fetch= async () => {
-      try {
-      const response = await model.invoke("how are you?");
-    console.log(response);  
-    }catch (error) {
-          console.error(error);
-      }
+});
 
-  }
+const fetch = async () => {
+    try {
+        const response = await model.invoke("how are you?");
+        console.log(response);
+    } catch (error) {
+        console.error(error);
+    }
+};
+
 fetch();
+
 const generateMarkdownFromContext = async (context) => {
     // Convert context to a prompt
     const prompt = `
@@ -31,4 +31,5 @@ const generateMarkdownFromContext = async (context) => {
     return response.choices[0].text;
 };
 
-module.exports = { generateMarkdownFromContext };
+// Update module export to ES module syntax
+export { generateMarkdownFromContext };

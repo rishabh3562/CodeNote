@@ -1,8 +1,8 @@
-const axios = require('axios');
+import axios from 'axios';
 
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 
-const fetchRepoStructure = async (owner, repo) => {
+export const fetchRepoStructure = async (owner, repo) => {
   try {
     const response = await axios.get(`https://api.github.com/repos/${owner}/${repo}/git/trees/master?recursive=1`, {
       headers: {
@@ -15,6 +15,4 @@ const fetchRepoStructure = async (owner, repo) => {
   }
 };
 
-module.exports = {
-  fetchRepoStructure,
-};
+// ... existing code ...

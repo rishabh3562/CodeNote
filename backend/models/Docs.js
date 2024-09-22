@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const docSchema = new mongoose.Schema({
   repoId: { type: mongoose.Schema.Types.ObjectId, ref: 'Repo', required: true },
@@ -8,4 +8,4 @@ const docSchema = new mongoose.Schema({
   updatedAt: { type: Date, default: Date.now }
 });
 
-module.exports = mongoose.model('Doc', docSchema);
+export default mongoose.model('Doc', docSchema);

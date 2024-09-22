@@ -17,6 +17,7 @@
     "@babel/parser": "^7.25.6",
     "@babel/preset-env": "^7.25.4",
     "@babel/preset-react": "^7.24.7",
+    "@google/generative-ai": "^0.19.0",
     "@langchain/google-genai": "^0.0.26",
     "@langchain/openai": "^0.2.11",
     "acorn": "^8.12.1",
@@ -29,5 +30,6 @@
     "langchain": "^0.2.19",
     "mongoose": "^8.4.5",
     "openai": "^4.60.0"
-  }
+  },
+  "type": "module"
 }

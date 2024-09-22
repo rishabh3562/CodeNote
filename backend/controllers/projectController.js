@@ -1,6 +1,6 @@
-const Project = require('../models/Project');
+import Project from '../models/Project.js'; // Changed to import
 
-exports.createProject = async (req, res) => {
+export const createProject = async (req, res) => {
   const project = new Project(req.body);
   try {
     await project.save();
@@ -10,7 +10,7 @@ exports.createProject = async (req, res) => {
   }
 };
 
-exports.getProjects = async (req, res) => {
+export const getProjects = async (req, res) => {
   try {
     const projects = await Project.find();
     res.json(projects);
@@ -19,7 +19,7 @@ exports.getProjects = async (req, res) => {
   }
 };
 
-exports.getProject = async (req, res) => {
+export const getProject = async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
     res.json(project);
@@ -28,7 +28,7 @@ exports.getProject = async (req, res) => {
   }
 };
 
-exports.updateProject = async (req, res) => {
+export const updateProject = async (req, res) => {
   try {
     const project = await Project.findByIdAndUpdate(req.params.id, req.body, { new: true });
     res.json(project);
@@ -37,7 +37,7 @@ exports.updateProject = async (req, res) => {
   }
 };
 
-exports.deleteProject = async (req, res) => {
+export const deleteProject = async (req, res) => {
   try {
     await Project.findByIdAndDelete(req.params.id);
     res.status(204).json();

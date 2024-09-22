@@ -1,6 +1,6 @@
-const Note = require('../models/Note');
+import Note from '../models/Note.js';
 
-exports.createNote = async (req, res) => {
+export const createNote = async (req, res) => {
   const note = new Note(req.body);
   try {
     await note.save();
@@ -10,7 +10,7 @@ exports.createNote = async (req, res) => {
   }
 };
 
-exports.getNotesByProject = async (req, res) => {
+export const getNotesByProject = async (req, res) => {
   try {
     const notes = await Note.find({ projectId: req.params.projectId });
     res.json(notes);
@@ -19,7 +19,7 @@ exports.getNotesByProject = async (req, res) => {
   }
 };
 
-exports.getNote = async (req, res) => {
+export const getNote = async (req, res) => {
   try {
     const note = await Note.findById(req.params.id);
     res.json(note);
@@ -28,7 +28,7 @@ exports.getNote = async (req, res) => {
   }
 };
 
-exports.updateNote = async (req, res) => {
+export const updateNote = async (req, res) => {
   try {
     const note = await Note.findByIdAndUpdate(req.params.id, req.body, { new: true });
     res.json(note);
@@ -37,7 +37,7 @@ exports.updateNote = async (req, res) => {
   }
 };
 
-exports.deleteNote = async (req, res) => {
+export const deleteNote = async (req, res) => {
   try {
     await Note.findByIdAndDelete(req.params.id);
     res.status(204).json();

@@ -1,5 +1,6 @@
-const express = require('express');
-const axios = require('axios');
+import express from 'express';
+import axios from 'axios';
+
 const router = express.Router();
 
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
@@ -18,4 +19,4 @@ router.get('/repo-structure', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

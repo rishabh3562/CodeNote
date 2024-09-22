@@ -1,9 +1,9 @@
-const babel = require('@babel/core');
-const fs = require('fs');
-const path = require('path');
+import babel from '@babel/core';
+import fs from 'fs';
+import path from 'path';
 
 // Parse code using Babel
-const parseCode = async (repoPath) => {
+export const parseCode = async (repoPath) => {
     const files = getJavaScriptFiles(repoPath);
     const parsedFiles = [];
 
@@ -49,5 +49,3 @@ const extractDocumentationFromAST = (ast, filePath) => {
         actions: []
     };
 };
-
-module.exports = { parseCode };

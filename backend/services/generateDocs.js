@@ -1,6 +1,6 @@
-const { parseCode } = require('./codeParser');
-const { generateMarkdownFromContext } = require('./langchainService');
-const Doc = require('../models/Docs');
+import { parseCode } from './codeParser.js';
+import { generateMarkdownFromContext } from './langchainService.js';
+import Doc from '../models/Docs.js';
 
 const generateAndStoreDocs = async (repoId, repoPath) => {
     const files = await parseCode(repoPath);
@@ -21,4 +21,4 @@ const generateAndStoreDocs = async (repoId, repoPath) => {
     }
 };
 
-module.exports = { generateAndStoreDocs };
+export { generateAndStoreDocs };

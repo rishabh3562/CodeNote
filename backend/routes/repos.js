@@ -1,6 +1,7 @@
-const express = require('express');
+import express from 'express';
+import { fetchRepo, updateCommitHashes } from '../services/repoFetch.js';
+
 const router = express.Router();
-const { fetchRepo, updateCommitHashes } = require('../services/repoFetch');
 
 // Fetch repository and track changes
 router.post('/fetch', async (req, res) => {
@@ -14,4 +15,4 @@ router.post('/fetch', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

@@ -1,5 +1,5 @@
-const { generateAndStoreDocs } = require('../services/generateDocs');
-const Repo = require('../models/Repo');
+import { generateAndStoreDocs } from '../services/generateDocs.js';
+import Repo from '../models/Repo.js';
 
 const generateDocs = async (req, res) => {
     const { repoId } = req.body;
@@ -19,4 +19,4 @@ const generateDocs = async (req, res) => {
     }
 };
 
-module.exports = { generateDocs };
+export { generateDocs };

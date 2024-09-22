@@ -1,5 +1,5 @@
-const axios = require('axios');
-const Repo = require('../models/Repo');
+import axios from 'axios';
+import Repo from '../models/Repo.js';
 
 const fetchRepo = async (req, res) => {
     const { repoId } = req.body;
@@ -21,4 +21,4 @@ const fetchRepo = async (req, res) => {
     }
 };
 
-module.exports = { fetchRepo };
+export { fetchRepo };

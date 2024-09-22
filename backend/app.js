@@ -1,10 +1,10 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const repoRoutes = require('./routes/repos');
-const docsRoutes = require('./routes/docs');
-const connectDB = require('./config/db');
+import express from 'express';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import repoRoutes from './routes/repos.js';
+import docsRoutes from './routes/docs.js';
+import connectDB from './config/db.js';
 
 const app = express();
 const port = process.env.PORT || 5000;

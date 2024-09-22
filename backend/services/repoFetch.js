@@ -1,6 +1,6 @@
-const axios = require('axios');
-const Repo = require('../models/Repo');
-const { generateAndStoreDocs } = require('./generateDocs');
+import axios from 'axios';
+import Repo from '../models/Repo.js'; // Ensure the file extension is included
+import { generateAndStoreDocs } from './generateDocs.js'; // Ensure the file extension is included
 
 // Fetch repository from GitHub
 const fetchRepo = async (repoUrl) => {
@@ -35,4 +35,4 @@ const getCommitHashes = async (repoUrl) => {
   return [];
 };
 
-module.exports = { fetchRepo, updateCommitHashes };
+export { fetchRepo, updateCommitHashes }; // Changed from module.exports

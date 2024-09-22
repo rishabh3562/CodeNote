@@ -1,5 +1,5 @@
-const { generatePromptContext } = require('../services/promptContext');
-const Repo = require('../models/Repo');
+import { generatePromptContext } from '../services/promptContext.js';
+import Repo from '../models/Repo.js';
 
 const generateContext = async (req, res) => {
     const { repoId } = req.body;
@@ -19,4 +19,4 @@ const generateContext = async (req, res) => {
     }
 };
 
-module.exports = { generateContext };
+export { generateContext };

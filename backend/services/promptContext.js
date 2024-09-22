@@ -1,8 +1,8 @@
-const babel = require('@babel/core');
-const fs = require('fs');
-const path = require('path');
+import babel from '@babel/core';
+import fs from 'fs';
+import path from 'path';
 
-const generatePromptContext = async (repoId, repoPath) => {
+export const generatePromptContext = async (repoId, repoPath) => {
     const files = getJavaScriptFiles(repoPath);
     const context = {};
 
@@ -45,4 +45,4 @@ const extractPromptContextFromAST = (ast) => {
     };
 };
 
-module.exports = { generatePromptContext };
+// module.exports = { generatePromptContext }; // Remove this line

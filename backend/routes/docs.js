@@ -1,6 +1,7 @@
-const express = require('express');
+import express from 'express';
+import Doc from '../models/Docs.js';
+
 const router = express.Router();
-const Doc = require('../models/Docs');
 
 // Fetch all documentation for a repository
 router.get('/:repoId', async (req, res) => {
@@ -26,4 +27,4 @@ router.get('/:repoId/:filePath', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
