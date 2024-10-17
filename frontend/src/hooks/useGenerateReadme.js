@@ -1,20 +1,29 @@
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { ENDPOINT } from '../utils/constant';
-import { queryClient } from '../main';
+
 const generateReadme = async (code) => {
-    try {
-        const response = await axios.post(ENDPOINT.GEMINI, { code });
-        return response.data;
-    } catch (error) {
-        throw error;
+  const response = await axios.post(ENDPOINT.GEMINI, { code });
+  return response.data;
+};
+
+export const useGenerateReadme = (onSuccess) => {
+  return useMutation({
+    mutationFn: generateReadme,
+    onSuccess,
+    onError: (error) => {
+      console.error("Error generating README:", error);
     }
+  });
 };
 
-export const useGenerateReadme = () => {
-    const mutation = useMutation({
-        mutationFn: (code) => generateReadme(code)
-    })
 
-    return mutation;
-};
+/*
+
+generateReadme, {
+    onSuccess, // Trigger onSuccess callback when mutation is successful
+    onError: (error) => {
+      console.error("Error generating README:", error);
+    }
+  }
+*/
