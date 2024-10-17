@@ -1,17 +1,17 @@
 # Frontend
 FROM node:18 AS frontend
 WORKDIR /app
-COPY client/package.json client/package-lock.json ./
+COPY frontend/package.json frontend/package-lock.json ./
 RUN npm install
-COPY client/ ./
+COPY frontend/ ./
 RUN npm run build
 
 # Backend
 FROM node:18 AS backend
 WORKDIR /app
-COPY server/package.json server/package-lock.json ./
+COPY backend/package.json backend/package-lock.json ./
 RUN npm install
-COPY server/ ./
+COPY backend/ ./
 COPY --from=frontend /app/build ./public
 EXPOSE 5000
 CMD ["node", "app.js"]
