@@ -5,22 +5,23 @@ import { unified } from "unified";
 import remarkParse from "remark-parse";
 import remarkStringify from "remark-stringify";
 import rehypeRaw from "rehype-raw";
-import "github-markdown-css"; // GitHub Markdown CSS
+import rehypePrism from "rehype-prism-plus";
+import "github-markdown-css"; // GitHub Markdown CSS for styling
+import "prismjs/themes/prism-tomorrow.css"; // Prism theme for code highlighting
 import { Puff } from "react-loader-spinner"; // Loader component
-import 'prismjs/themes/prism-tomorrow.css'; // Prism theme
-import rehypePrism from 'rehype-prism-plus';
+
 function GenerateReadmeComponent() {
   const [code, setCode] = useState("");
   const [markdownContent, setMarkdownContent] = useState("");
 
-  // Define onSuccess callback for mutation
+  // onSuccess callback for mutation
   const onSuccess = (data) => {
     const readmeData = data.data; // Adjust based on actual response format
 
     // Process the markdown content using unified
     unified()
       .use(remarkParse)
-      .use(remarkStringify, { gfm: false }) // Enable GitHub Flavored Markdown
+      .use(remarkStringify, { gfm: true }) // Enable GitHub Flavored Markdown
       .process(readmeData)
       .then((file) => {
         const cleanedMarkdown = String(file).replace(/\n{2,}/g, "\n\n"); // Clean unnecessary new lines
@@ -28,7 +29,6 @@ function GenerateReadmeComponent() {
       });
   };
 
-  // Use mutation with onSuccess handler
   const {
     mutate,
     isLoading: isGenerating,
@@ -37,7 +37,7 @@ function GenerateReadmeComponent() {
   } = useGenerateReadme(onSuccess);
 
   const handleGenerate = () => {
-    mutate(code); // No need to await, result will be handled by onSuccess
+    mutate(code); // Trigger the mutation to generate README
   };
 
   return (
@@ -75,9 +75,9 @@ function GenerateReadmeComponent() {
       {/* Right Column: Generated README */}
       <div>
         <h3 className="text-xl font-semibold mb-4">Generated README:</h3>
-        <div className="markdown-body bg-gray-100 p-4 border border-gray-300 rounded-md">
+        <div className="markdown-body bg-gray-100 p-4 border border-gray-300 rounded-md max-h-[600px] overflow-auto">
           {markdownContent ? (
-            <ReactMarkdown rehypePlugins={[rehypeRaw]}>
+            <ReactMarkdown rehypePlugins={[rehypeRaw, rehypePrism]}>
               {markdownContent}
             </ReactMarkdown>
           ) : (
