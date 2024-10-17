@@ -1,28 +1,35 @@
 {
-  "name": "codenote_backend_root",
+  "name": "codenote_backend",
   "version": "1.0.0",
-  "description": "root package.json",
-  "main": "api/gateway/src/index.js",
+  "description": "backend for the codenote folder ",
+  "main": "server.js",
   "scripts": {
-    "test": "npm run test",
-    "install:sub": "node start.js",
-    "start:gateway": "cd api/gateway && npm start",
-    "start:user": "cd services/user && npm start",
-    "start:llm": "cd services/llm && npm start",
-    "start": "npm run start:gateway & npm run start:user & npm run start:llm",
-    "gateway": "node api/gateway/src/index.js",
-    "sub": "cd api/gateway && npm install && cd ../../services/user && npm install && cd ../llm && npm install"
-  ,"gateway-i":"cd api/gateway && npm i"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/rishabh3562/CodeNote.git"
+    "test": "npm test",
+    "start": "node server.js",
+    "dev": "nodemon --env-file=.env server.js",
+    "server": "nodemon server.js",
+    "app": "nodemon --env-file=.env app.js"
   },
   "author": "Rishabh Dubey",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/rishabh3562/CodeNote/issues"
+  "dependencies": {
+    "@babel/core": "^7.25.2",
+    "@babel/parser": "^7.25.6",
+    "@babel/preset-env": "^7.25.4",
+    "@babel/preset-react": "^7.24.7",
+    "@google/generative-ai": "^0.19.0",
+    "@langchain/google-genai": "^0.0.26",
+    "@langchain/openai": "^0.2.11",
+    "acorn": "^8.12.1",
+    "aws-sdk": "^2.1655.0",
+    "axios": "^1.7.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "http-proxy-middleware": "^3.0.0",
+    "langchain": "^0.2.19",
+    "mongoose": "^8.4.5",
+    "openai": "^4.60.0"
   },
-  "homepage": "https://github.com/rishabh3562/CodeNote#readme",
-    "type": "module"
+  "type": "module"
 }
