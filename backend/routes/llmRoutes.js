@@ -16,31 +16,37 @@ const llm = new ChatGoogleGenerativeAI({
 const genai = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
 console.log("genai: ", process.env.GOOGLE_API_KEY)
 
-app.post('/gemini',cors(),async (req, res) => {
+app.post('/gemini', cors(), async (req, res) => {
     console.log(req.body);
-    const prompt= req.body.code || req.body.prompt;
-    const getAI= new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-    const model= getAI.getGenerativeModel({model: 'gemini-1.5-flash'});
-    const Changedprompt = `
-      Given the following React component code, generate a README with the following sections:
-      - States
-      - Functions (function overview, arguments)
-      - State changes
-      - Component overview
-  
-      React component code:
-      ${req.body.code || req.body.prompt}
-      `;
-   try {
-      const response= await model.generateContent(Changedprompt);
-      console.log(response.response.text());
-      res.json({"msg":"success","data":response.response.text()});
-   } catch (error) {
-      console.log(error);
-      res.status(500).json({error: error.message});
-   }
+    const prompt = req.body.code || req.body.prompt;
+    const getAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+    const model = getAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
     
-  });
+    const changedPrompt = `
+      Given the following React component code, generate a README with the following sections:
+      - **States**: Describe the component's states.
+      - **Functions**: Overview of each function and their arguments.
+      - **State Changes**: Describe how the state changes occur within the component.
+      - **Component Overview**: A summary of the component's purpose and functionality.
+
+      React component code:
+      \`\`\`javascript
+      ${req.body.code || req.body.prompt}
+      \`\`\`
+    `;
+
+    try {
+        const response = await model.generateContent(changedPrompt);
+        const readmeContent = response.response.text();
+
+        // Ensure the response is formatted as expected
+        res.json({ msg: "success", data: readmeContent });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: error.message || "Error generating README." });
+    }
+});
+
 
 const proxyMiddleware = createProxyMiddleware({
     target: 'https://generativelanguage.googleapis.com/v1beta',
