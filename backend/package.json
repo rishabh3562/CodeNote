@@ -1,8 +1,8 @@
 {
-  "name": "codenote_backend",
+  "name": "codenote_backend_root",
   "version": "1.0.0",
-  "description": "backend for the codenote folder ",
-  "main": "server.js",
+  "description": "root package.json",
+  "main": "api/gateway/src/index.js",
   "scripts": {
     "test": "npm test",
     "start": "node server.js",

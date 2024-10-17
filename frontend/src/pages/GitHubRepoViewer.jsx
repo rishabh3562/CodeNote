@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import MarkdownIt from 'markdown-it';
+import MdEditor from 'react-markdown-editor-lite';
+import 'react-markdown-editor-lite/lib/index.css';
 
 function Dashboard() {
   const [repoUrl, setRepoUrl] = useState('');
@@ -9,6 +12,9 @@ function Dashboard() {
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('code'); // 'code' or 'editor'
   const [fileNotes, setFileNotes] = useState('');
+  const [markdownPreview, setMarkdownPreview] = useState('');
+
+  const mdParser = new MarkdownIt();
 
   const fetchRepoContents = async (owner, repo, path = '') => {
     setLoading(true);
@@ -89,9 +95,10 @@ function Dashboard() {
       const contents = await fetchRepoContents(owner, repo);
       setRepoContents(contents);
 
-      // Clear file content and notes when fetching new repository contents
+      // Clear file content, notes, and markdown preview when fetching new repository contents
       setFileContent('');
       setFileNotes('');
+      setMarkdownPreview('');
     } else {
       console.error('Invalid GitHub repository URL');
       setRepoContents([]);
@@ -134,7 +141,9 @@ function Dashboard() {
   };
 
   const handleNotesChange = (event) => {
-    setFileNotes(event.target.value);
+    const content = event.text || ''; // 'text' property contains markdown text
+    setFileNotes(content);
+    setMarkdownPreview(mdParser.render(content)); // Update markdown preview
   };
 
   return (
@@ -218,12 +227,20 @@ function Dashboard() {
         ) : activeTab === 'code' ? (
           <pre className="bg-gray-100 p-4 rounded">{fileContent}</pre>
         ) : (
-          <textarea
-            value={fileNotes}
-            onChange={handleNotesChange}
-            placeholder="Write your notes here..."
-            className="w-full h-40 px-3 py-2 border border-gray-300 rounded resize-none focus:outline-none focus:border-blue-500"
-          />
+          <div className="flex">
+            {/* Markdown Editor */}
+            <div className="flex-1 mr-2">
+              <MdEditor
+                value={fileNotes}
+                onChange={handleNotesChange}
+                renderHTML={(text) => mdParser.render(text)}
+              />
+            </div>
+            {/* Markdown Preview */}
+            <div className="flex-1 ml-2">
+              <div className="bg-gray-100 p-4 rounded" dangerouslySetInnerHTML={{ __html: markdownPreview }} />
+            </div>
+          </div>
         )}
       </main>
     </div>
