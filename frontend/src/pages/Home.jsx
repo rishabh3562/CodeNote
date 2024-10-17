@@ -35,6 +35,9 @@ const Home = () => {
         <div>
           <button onClick={() => navigate('/ChatBot')}>Go to Chatbot createdby ania</button>
         </div>
+        <div>
+          <button onClick={() => navigate('/md')}>Go to markdown editor</button>
+        </div>
     </div>
   )
 }

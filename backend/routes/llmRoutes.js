@@ -18,7 +18,7 @@ console.log("genai: ", process.env.GOOGLE_API_KEY)
 
 app.post('/gemini',cors(),async (req, res) => {
     console.log(req.body);
-    const prompt= req.body.prompt;
+    const prompt= req.body.code || req.body.prompt;
     const getAI= new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
     const model= getAI.getGenerativeModel({model: 'gemini-1.5-flash'});
     const Changedprompt = `
@@ -29,7 +29,7 @@ app.post('/gemini',cors(),async (req, res) => {
       - Component overview
   
       React component code:
-      ${req.body.prompt}
+      ${req.body.code || req.body.prompt}
       `;
    try {
       const response= await model.generateContent(Changedprompt);

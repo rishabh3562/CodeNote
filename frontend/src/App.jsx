@@ -11,6 +11,7 @@ import { BreadcrumbProvider } from "./context/BreadcrumbContext";
 import "./index.css";
 import DocsViewer from "./components/DocsViewer";
 import RepoFetcher from "./components/RepoFetcher";
+const MarkdownEditor=lazy(()=> import('./pages/MarkdownEditor'));
 const Llmcall = lazy(() => import("./components/Llmcall"));
 const Home = lazy(() => import("./pages/Home"));
 const ProjectPage = lazy(() => import("./pages/ProjectPage"));
@@ -109,6 +110,15 @@ const WebRouter = createBrowserRouter([
         <Llmcall />
       </Suspense>
     ),
+
+  },
+  {
+path:'/md',
+element:(
+  <Suspense fallback={<div>Loading...</div>}>
+  <MarkdownEditor />
+</Suspense>
+)
   },
   {
     path: "*",
