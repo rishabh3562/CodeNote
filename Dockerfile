@@ -1,17 +1,24 @@
-# Frontend
-FROM node:18 AS frontend
-WORKDIR /app
-COPY client/package.json client/package-lock.json ./
+# Step 1: Use an official Node.js image as the base
+FROM node:18
+
+# Step 2: Set the working directory inside the container to the frontend directory
+WORKDIR /app/frontend
+
+# Step 3: Copy package.json and package-lock.json from the frontend folder
+COPY frontend/package*.json ./
+
+# Step 4: Install dependencies
 RUN npm install
-COPY client/ ./
+
+# Step 5: Copy the rest of your application files from the frontend folder
+COPY frontend/ ./
+
+# Step 6: Build the Vite app for production
 RUN npm run build
 
-# Backend
-FROM node:18 AS backend
-WORKDIR /app
-COPY server/package.json server/package-lock.json ./
-RUN npm install
-COPY server/ ./
-COPY --from=frontend /app/build ./public
-EXPOSE 5000
-CMD ["node", "app.js"]
+# Step 7: Expose the port that Vite will use (default is 5173)
+EXPOSE 5173
+
+# Step 8: Start the Vite server
+CMD ["npm", "run", "preview", "--", "--host"]
+

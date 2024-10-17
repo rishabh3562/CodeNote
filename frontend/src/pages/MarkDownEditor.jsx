@@ -102,10 +102,10 @@ const MarkdownEditor = () => {
         <div className="preview-container border rounded-lg p-4 bg-gray-100 shadow-sm overflow-y-auto">
           <h2 className="text-xl font-semibold mb-2">Preview</h2>
           <div className="markdown-body bg-gray-100 p-4 border border-gray-300 rounded-md">
-              <ReactMarkdown rehypePlugins={[rehypeRaw]}>
-                {markdown}
-              </ReactMarkdown>
-            </div>
+            <ReactMarkdown remarkPlugins={[gfm]} rehypePlugins={[rehypeRaw]}>
+              {markdown}
+            </ReactMarkdown>
+          </div>
         </div>
       </div>
     </div>
