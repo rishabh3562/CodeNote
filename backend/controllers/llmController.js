@@ -6,7 +6,41 @@ const llm = new ChatGoogleGenerativeAI({
   temperature: 0,
   apiKey: process.env.GOOGLE_API_KEY,
 });
+import cors from 'cors';
 const app = express();
+app.use(express.json());
+// app.options('*', cors());
+
+const gemini = async (req, res) => {
+  console.log(req.body);
+  const prompt = req.body.code || req.body.prompt;
+  const getAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+  const model = getAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+
+  const changedPrompt = `
+      Given the following React component code, generate a README with the following sections:
+      - **States**: Describe the component's states.
+      - **Functions**: Overview of each function and their arguments.
+      - **State Changes**: Describe how the state changes occur within the component.
+      - **Component Overview**: A summary of the component's purpose and functionality.
+
+      React component code:
+      \`\`\`javascript
+      ${req.body.code || req.body.prompt}
+      \`\`\`
+    `;
+
+  try {
+    const response = await model.generateContent(changedPrompt);
+    const readmeContent = response.response.text();
+
+    // Ensure the response is formatted as expected
+    res.json({ msg: "success", data: readmeContent });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: error.message || "Error generating README." });
+  }
+}
 const generateReadme = async (req, res) => {
   const { code } = req.body;
   if (!code) return res.status(400).json({ error: 'Code is required' });
@@ -40,4 +74,4 @@ const generateReadme2 = async (req, res) => {
     });
   }
 };
-export { generateReadme,generateReadme2 };
+export { generateReadme,generateReadme2,gemini };
