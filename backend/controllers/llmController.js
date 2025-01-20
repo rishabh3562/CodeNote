@@ -1,69 +1,91 @@
-import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
-// import fs from 'fs'; // Import the file system module
-
-const llm = new ChatGoogleGenerativeAI({
-  model: "gemini-1.5-pro",
-  temperature: 0,
-  maxRetries: 2,
-  apiKey: process.env.GOOGLE_API_KEY
-  // other params...
-});
-
-// Define the syntax for the markdown code
-const syntax = `
-# MyComponent
-
-## Overview
-A simple React component that allows users to increment a counter using React hooks.
+import { ChatGoogleGenerativeAI } from '@langchain/google-genai';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
 
-## Usage
-How to import and use the component in a React application.
+// const llm = new ChatGoogleGenerativeAI({
+//   model: 'gemini-1.5-pro',
+//   temperature: 0,
+//   apiKey: process.env.GOOGLE_API_KEY,
+// });
 
-## Features
-List of features provided by the component.
+// // Controller for /gemini route
+// export const geminiHandler = async (req, res) => {
+//   console.log(req.body);
+//   const prompt = req.body.code || req.body.prompt;
 
-## Parameters
-Description of any parameters that can be configured.
+//   try {
+//     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+//     const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
-## Example
-Code example demonstrating how to use the component.
+//     const changedPrompt = `
+//           Given the following React component code, generate a README with the following sections:
+//           - **States**: Describe the component's states.
+//           - **Functions**: Overview of each function and their arguments.
+//           - **State Changes**: Describe how the state changes occur within the component.
+//           - **Component Overview**: A summary of the component's purpose and functionality.
 
+//           React component code:
+//           \`\`\`javascript
+//           ${prompt}
+//           \`\`\`
+//         `;
 
-`;
+//     const response = await model.generateContent(changedPrompt);
+//     const readmeContent = response.response.text();
 
-// New prompt to generate README for a React component
-const reactComponent = `
-import React, { useState } from 'react';
+//     res.json({ msg: 'success', data: readmeContent });
+//   } catch (error) {
+//     console.error('Error generating README:', error);
+//     res.status(500).json({ error: error.message || 'Error generating README.' });
+//   }
+// };
 
-function MyComponent() {
-  const [count, setCount] = useState(0);
-  
-  return (
-    <div>
-      <button onClick={() => setCount(count + 1)}>Increment</button>
-      <p>Count: {count}</p>
-    </div>
-  );
-}
+// // Controller for /generate-readme route
+// export const generateReadme = async (req, res) => {
+//   const { code } = req.body;
+//   if (!code) return res.status(400).json({ error: 'Code is required' });
 
-export default MyComponent;
-`;
+//   try {
+//     const promptContext = `You are a helpful assistant that generates markdown documentation for a given JavaScript-based code (majorly React and Node.js).`;
 
-const promptContext = `
-You are a helpful assistant that generates markdown 
-documentation for a given javascript based code (majorly react and nextjs and node js).
-`;
-const aiMsg = await llm.invoke([
-  [
-    "system",promptContext
-  ],
-  ["human", reactComponent],
-]);
+//     const aiMsg = await llm.invoke([
+//       ['system', promptContext],
+//       ['human', code],
+//     ]);
 
-// Store the response in a markdown file
-// fs.writeFileSync('frontend/readme/README.md', aiMsg, 'utf8'); // Save the response to README.md
+//     res.json({
+//       message: 'README generated successfully',
+//       content: aiMsg.content,
+//     });
+//   } catch (error) {
+//     console.error('Error generating README:', error);
+//     res.status(500).json({
+//       error: 'Failed to generate README',
+//       reason: error.message,
+//     });
+//   }
+// };
 
-console.log(aiMsg.content);
+// // Controller for /generate-readme/alt route
+// export const generateReadme2 = async (req, res) => {
+//   const { code } = req.body;
+//   if (!code) return res.status(400).json({ error: 'Code is required' });
 
-// New function to handle markdown generation
+//   try {
+//     const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
+//     const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+//     const prompt = 'Write a story about a magic backpack.';
+
+//     const result = await model.generateContent(prompt);
+//     res.json({
+//       message: 'README generated successfully',
+//       content: result.response.text(),
+//     });
+//   } catch (error) {
+//     console.error('Error generating README:', error);
+//     res.status(500).json({
+//       error: 'Failed to generate README',
+//       reason: error.message,
+//     });
+//   }
+// };

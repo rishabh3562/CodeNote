@@ -48,47 +48,6 @@ app.post('/gemini', cors(), async (req, res) => {
 });
 
 
-const proxyMiddleware = createProxyMiddleware({
-    target: 'https://generativelanguage.googleapis.com/v1beta',
-    changeOrigin: true,
-    pathRewrite: {
-        '^/api/code/generate-readme': '/models/gemini-1.5-pro:generateContent',
-    },
-    headers: {
-        'Authorization': `Bearer ${process.env.GOOGLE_API_KEY}`,
-        'Content-Type': 'application/json',
-    },
-    onProxyReq: (proxyReq, req, res,next) => {
-        console.log('Proxy request invoked for:', proxyReq.path);
-
-        const body = JSON.stringify({
-            generationConfig: {
-                candidateCount: 1,
-                stopSequences: [],
-                temperature: 0,
-            },
-            contents: [{
-                role: "user",
-                parts: [{ text: "You are a helpful assistant that generates a README.md file for a given React component." }],
-            }],
-            safetySettings: [],
-        });
-
-        console.log('Proxy request body:', body);
-
-        proxyReq.write(body);
-        proxyReq.end();
-
-        console.log('Proxy request successfully sent');
-        next();
-    },
-    onProxyRes: (proxyRes, req, res,next) => {
-        console.log('Proxy response received with status:', proxyRes.statusCode);
-        next();
-    }
-}); 
-console.log("proxyMiddleware: ", proxyMiddleware)
-// app.use('/generate-readme', proxyMiddleware);
 
 const generateReadme = async (req, res) => {
     const { code } = req.body;
@@ -141,10 +100,7 @@ const generateReadme2 = async (req, res) => {
 
 app.post('/generate-readme', generateReadme);
 app.post('/generate-readme2', generateReadme2);
-app.get('/generate-readme', (req, res) => {
-    console.log('Test proxy hit');
-    res.send('Proxy test successful');
-});
+
 
 export default app;
 

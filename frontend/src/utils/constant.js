@@ -3,7 +3,7 @@ const PATH = {
     GENERATE_README: "/api/code/generate-readme",
     GENERATE_README_2: "/api/code/generate-readme2",
     GEMINI: "/api/code/gemini",
-    GET_RESPONSE: "/getResponse",
+    
 };
 const ENDPOINT = {
     GENERATE_README: `${BASE_URL}${PATH.GENERATE_README}`,

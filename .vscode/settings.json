@@ -3,5 +3,11 @@
     "files.associations": {
         "*.ejs": "html",
         "iostream": "cpp"
-    }
+    },
+    "editor.multiCursorMergeOverlapping": true,
+    "editor.overtypeCursorStyle": "line",
+    "editor.cursorBlinking": "smooth",
+    "terminal.integrated.altClickMovesCursor": true,
+    "terminal.integrated.cursorStyle": "line",
+    "terminal.integrated.cursorStyleInactive": "line"
 }
