@@ -20,6 +20,7 @@ const NotePage = lazy(() => import("./pages/NotePage"));
 const RepoStructure = lazy(() => import("./components/RepoStructure"));
 const GitHubRepoViewer = lazy(() => import("./pages/GitHubRepoViewer"));
 const GitHubRepoViewerv1 = lazy(() => import("./pages/GtihubRepoViewerv1"));
+const GitHubRepoViewerv2 =lazy(()=>import("./pages/GitHubRepoViewer"))
 const GenerateReadme = lazy(() => import("./pages/GenerateSingleReadme"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const ChatBot = lazy(() => import("./pages/ChatBot"));
@@ -69,6 +70,14 @@ const WebRouter = createBrowserRouter([
     element: (
       <Suspense fallback={<div>Loading...</div>}>
         <GitHubRepoViewerv1 />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/GitHubRepoViewerv2",
+    element: (
+      <Suspense fallback={<div>Loading...</div>}>
+        <GitHubRepoViewerv2 />
       </Suspense>
     ),
   },

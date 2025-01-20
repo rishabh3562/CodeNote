@@ -16,7 +16,7 @@ const Home = () => {
         </div>
       <div>
         
-        <button onClick={() => navigate('/githubViewerV2')}>Go to GitHub Viewer V2</button>
+        <button onClick={() => navigate('/GitHubRepoViewerv2')}>Go to GitHub Viewer V2</button>
         </div>
       <div>
         
