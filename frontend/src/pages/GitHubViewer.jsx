@@ -1,39 +1,50 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 const RepoFetcher = () => {
+  const [username, setUsername] = useState("");
   const [repos, setRepos] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchRepos = async () => {
-      try {
-        const response = await fetch(
-          "https://api.github.com/users/YOUR_USERNAME/repos"
-        );
-        if (!response.ok) throw new Error("Failed to fetch repositories");
-        const data = await response.json();
-        setRepos(data);
-      } catch (error) {
-        setError(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchRepos();
-  }, []);
-
-  if (loading)
-    return <div className="text-center text-gray-500">Loading...</div>;
-  if (error)
-    return <div className="text-center text-red-600">Error: {error}</div>;
+  const fetchRepos = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetch(
+        `https://api.github.com/users/${username}/repos`
+      );
+      if (!response.ok) throw new Error("Failed to fetch repositories");
+      const data = await response.json();
+      setRepos(data);
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="max-w-4xl mx-auto p-5">
       <h2 className="text-2xl font-semibold mb-5 text-center">
-        Public Repositories
+        GitHub Repository Viewer
       </h2>
+      <div className="mb-5 text-center">
+        <input
+          type="text"
+          placeholder="Enter GitHub username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          className="border p-2 rounded w-80"
+        />
+        <button
+          onClick={fetchRepos}
+          className="ml-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
+        >
+          Fetch Repos
+        </button>
+      </div>
+      {loading && <div className="text-center text-gray-500">Loading...</div>}
+      {error && <div className="text-center text-red-600">Error: {error}</div>}
       <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         {repos.map((repo) => (
           <li
