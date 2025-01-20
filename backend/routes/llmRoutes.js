@@ -1,25 +1,17 @@
 import express from 'express';
+import { ChatGoogleGenerativeAI } from '@langchain/google-genai';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 import dotenv from 'dotenv';
-import cors from 'cors';
-import { generateReadme, generateReadme2, gemini } from '../controllers/llmController.js';
-
-// Load environment variables
 dotenv.config();
-
-// Initialize Express app and Router
+import { generateReadme, generateReadme2, gemini } from '../controllers/llmController.js';
+import cors from 'cors';
 const app = express();
-const router = express.Router();
-
-// Middleware
 app.use(express.json());
-app.use(cors());  // Apply CORS globally
+app.post('/gemini', cors(), gemini);
+app.post('/generate-readme', generateReadme);
+app.post('/generate-readme2', generateReadme2);
 
-// Define routes using router
-router.post('/gemini', gemini);
-router.post('/generate-readme', generateReadme);
-router.post('/generate-readme2', generateReadme2);
-
-// Use the router
-app.use('/api', router);
 
 export default app;
+
+
