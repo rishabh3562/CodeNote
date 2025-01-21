@@ -5,7 +5,7 @@ const docSchema = new mongoose.Schema({
   filePath: { type: String, required: true },
   content: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now }
+  updatedAt: { type: Date, default: Date.now },
 });
 
 export default mongoose.model('Doc', docSchema);

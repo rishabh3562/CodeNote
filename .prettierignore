@@ -1,0 +1,7 @@
+node_modules/
+package.json
+build/
+dist/
+public/
+backend/node_modules/
+frontend/node_modules/

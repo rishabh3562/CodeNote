@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 const RepoFetcher = () => {
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState('');
   const [repos, setRepos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -13,7 +13,7 @@ const RepoFetcher = () => {
       const response = await fetch(
         `https://api.github.com/users/${username}/repos`
       );
-      if (!response.ok) throw new Error("Failed to fetch repositories");
+      if (!response.ok) throw new Error('Failed to fetch repositories');
       const data = await response.json();
       setRepos(data);
     } catch (error) {
@@ -57,7 +57,7 @@ const RepoFetcher = () => {
               </a>
             </h3>
             <p className="text-gray-700 mt-1">
-              {repo.description || "No description available."}
+              {repo.description || 'No description available.'}
             </p>
             <div className="mt-2 flex flex-wrap">
               {repo.language && (

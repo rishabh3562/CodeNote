@@ -1,95 +1,62 @@
-import React, { lazy, Suspense } from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom"; // Updated import statements for v6
-import "./index.css";
+import React, { lazy } from 'react';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import './index.css';
+import { FRONTEND_ROUTES } from './utils/constant';
+import { Wrapper } from './components/SuspenseWrapper';
 
-
-const MarkdownEditor = lazy(() => import("./pages/MarkDownEditor"));
-const Home = lazy(() => import("./pages/Home"));
-const GitHubViewer = lazy(() => import("./pages/GitHubViewer"));
-const GitHubRepoViewer = lazy(() => import("./pages/GtihubRepoViewer"));
-const PrivateGitHubRepoViewer = lazy(() =>
-  import("./pages/PrivateGitHubRepoViewer")
+const MarkdownEditor = lazy(() => import('./pages/MarkDownEditor'));
+const Home = lazy(() => import('./pages/Home'));
+const GitHubViewer = lazy(() => import('./pages/GitHubViewer'));
+const GitHubRepoViewer = lazy(() => import('./pages/GtihubRepoViewer'));
+const PrivateGitHubRepoViewer = lazy(
+  () => import('./pages/PrivateGitHubRepoViewer')
 );
-const GenerateReadme = lazy(() => import("./pages/GenerateSingleReadme"));
-const NotFound = lazy(() => import("./pages/NotFound"));
+const GenerateReadme = lazy(() => import('./pages/GenerateSingleReadme'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 
 const Test = () => {
   return (
     <div>
-      <h1>router working </h1>
+      <h1>Router Working</h1>
     </div>
   );
 };
 
 const WebRouter = createBrowserRouter([
   {
-    path: "/",
-    element: (
-      <Suspense fallback={<div>Loading...</div>}>
-        <Home />
-      </Suspense>
-    ),
+    path: FRONTEND_ROUTES.HOME,
+    element: <Wrapper element={<Home />} />,
   },
   {
-    path: "/test",
-    element: (
-      <Suspense fallback={<div>Loading...</div>}>
-        <Test />
-      </Suspense>
-    ),
+    path: FRONTEND_ROUTES.TEST,
+    element: <Wrapper element={<Test />} />,
   },
   {
-    path: "/generateReadme",
-    element: (
-      <Suspense fallback={<div>Loading...</div>}>
-        <GenerateReadme />
-      </Suspense>
-    ),
+    path: FRONTEND_ROUTES.GENERATE_SINGLE_README,
+    element: <Wrapper element={<GenerateReadme />} />,
   },
   {
-    path: "/GitHubViewer",
-    element: (
-      <Suspense fallback={<div>Loading...</div>}>
-        <GitHubViewer />
-      </Suspense>
-    ),
+    path: FRONTEND_ROUTES.GITHUB_VIEWER,
+    element: <Wrapper element={<GitHubViewer />} />,
   },
   {
-    path: "/GitHubRepoViewer",
-    element: (
-      <Suspense fallback={<div>Loading...</div>}>
-        <GitHubRepoViewer />
-      </Suspense>
-    ),
+    path: FRONTEND_ROUTES.GITHUB_REPO_VIEWER,
+    element: <Wrapper element={<GitHubRepoViewer />} />,
   },
   {
-    path: "/PrivateGitHubRepoViewer",
-    element: (
-      <Suspense fallback={<div>Loading...</div>}>
-        <PrivateGitHubRepoViewer />
-      </Suspense>
-    ),
-  },
-
-
-
-  {
-    path: "/md",
-    element: (
-      <Suspense fallback={<div>Loading...</div>}>
-        <MarkdownEditor />
-      </Suspense>
-    ),
+    path: FRONTEND_ROUTES.PRIVATE_GITHUB_REPO_VIEWER,
+    element: <Wrapper element={<PrivateGitHubRepoViewer />} />,
   },
   {
-    path: "*",
-    element: (
-      <Suspense fallback={<div>Loading...</div>}>
-        <NotFound />
-      </Suspense>
-    ),
+    path: FRONTEND_ROUTES.MARKDOWN_EDITOR,
+    element: <Wrapper element={<MarkdownEditor />} />,
+  },
+  {
+    path: FRONTEND_ROUTES.NOT_FOUND,
+    element: <Wrapper element={<NotFound />} />,
   },
 ]);
+
 function App() {
   return (
     <>

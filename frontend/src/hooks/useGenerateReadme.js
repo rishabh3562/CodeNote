@@ -12,11 +12,10 @@ export const useGenerateReadme = (onSuccess) => {
     mutationFn: generateReadme,
     onSuccess,
     onError: (error) => {
-      console.error("Error generating README:", error);
-    }
+      console.error('Error generating README:', error);
+    },
   });
 };
-
 
 /*
 

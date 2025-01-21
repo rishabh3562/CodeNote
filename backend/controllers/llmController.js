@@ -35,12 +35,14 @@ const gemini = async (req, res) => {
     const readmeContent = response.response.text();
 
     // Ensure the response is formatted as expected
-    res.json({ msg: "success", data: readmeContent });
+    res.json({ msg: 'success', data: readmeContent });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: error.message || "Error generating README." });
+    res
+      .status(500)
+      .json({ error: error.message || 'Error generating README.' });
   }
-}
+};
 const generateReadme = async (req, res) => {
   const { code } = req.body;
   if (!code) return res.status(400).json({ error: 'Code is required' });
@@ -50,7 +52,9 @@ const generateReadme = async (req, res) => {
     res.json({ msg: 'success', data: readmeContent });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: error.message || 'Error generating README.' });
+    res
+      .status(500)
+      .json({ error: error.message || 'Error generating README.' });
   }
 };
 
@@ -60,18 +64,21 @@ const generateReadme2 = async (req, res) => {
 
   try {
     const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-    const prompt = "Write a story about a magic backpack.";
+    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    const prompt = 'Write a story about a magic backpack.';
 
     const result = await model.generateContent(prompt);
     console.log(result.response.text());
-    res.json({ message: 'README generated successfully', content: result.response.text() });
+    res.json({
+      message: 'README generated successfully',
+      content: result.response.text(),
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({
       error: 'Failed to generate README',
-      reason: error.message
+      reason: error.message,
     });
   }
 };
-export { generateReadme,generateReadme2,gemini };
+export { generateReadme, generateReadme2, gemini };

@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useState } from 'react';
+import axios from 'axios';
 
 function GitHubRepoViewer() {
-  const [repoUrl, setRepoUrl] = useState("");
+  const [repoUrl, setRepoUrl] = useState('');
   const [repoContents, setRepoContents] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
 
-  const fetchRepoContents = async (owner, repo, path = "") => {
+  const fetchRepoContents = async (owner, repo, path = '') => {
     setLoading(true);
     try {
       const response = await axios.get(
@@ -21,13 +21,13 @@ function GitHubRepoViewer() {
         type: item.type,
         path: item.path,
         contents: [],
-        isExpandable: item.type === "dir",
+        isExpandable: item.type === 'dir',
         isExpanded: false,
       }));
 
       return processedContents;
     } catch (error) {
-      setError("Error fetching repository contents");
+      setError('Error fetching repository contents');
       return [];
     } finally {
       setLoading(false);
@@ -35,7 +35,7 @@ function GitHubRepoViewer() {
   };
 
   const handleFetchRepo = async () => {
-    setError("");
+    setError('');
     const regex = /github.com\/([^/]+)\/([^/]+)\/*/i;
     const match = repoUrl.match(regex);
 
@@ -45,15 +45,15 @@ function GitHubRepoViewer() {
       const contents = await fetchRepoContents(owner, repo);
       setRepoContents(contents);
     } else {
-      setError("Invalid GitHub repository URL");
+      setError('Invalid GitHub repository URL');
       setRepoContents([]);
     }
   };
 
   const toggleExpand = async (item) => {
     if (item.isExpandable && !item.isExpanded) {
-      const owner = repoUrl.split("/")[3];
-      const repo = repoUrl.split("/")[4];
+      const owner = repoUrl.split('/')[3];
+      const repo = repoUrl.split('/')[4];
       const path = item.path;
 
       const expandedContents = await fetchRepoContents(owner, repo, path);
@@ -93,33 +93,33 @@ function GitHubRepoViewer() {
         <ul className="bg-white rounded shadow-md p-5">
           {repoContents.map((item) => (
             <li key={item.path} className="mb-2">
-              {item.type === "file" ? (
+              {item.type === 'file' ? (
                 <span className="text-gray-700">{item.name}</span>
               ) : (
                 <div>
                   <span
-                    style={{ cursor: "pointer" }}
+                    style={{ cursor: 'pointer' }}
                     onClick={() => toggleExpand(item)}
                     className="text-blue-500 font-medium"
                   >
-                    {item.isExpanded ? "[-] " : "[+] "}
+                    {item.isExpanded ? '[-] ' : '[+] '}
                     {item.name}/
                   </span>
                   {item.isExpanded && (
                     <ul className="pl-5">
                       {item.contents.map((subItem) => (
                         <li key={subItem.path}>
-                          {subItem.type === "file" ? (
+                          {subItem.type === 'file' ? (
                             <span className="text-gray-700">
                               {subItem.name}
                             </span>
                           ) : (
                             <span
-                              style={{ cursor: "pointer" }}
+                              style={{ cursor: 'pointer' }}
                               onClick={() => toggleExpand(subItem)}
                               className="text-blue-500 font-medium"
                             >
-                              {subItem.isExpanded ? "[-] " : "[+] "}
+                              {subItem.isExpanded ? '[-] ' : '[+] '}
                               {subItem.name}/
                             </span>
                           )}

@@ -1,52 +1,33 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { FRONTEND_ROUTES } from '../utils/constant';
+
 const Home = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
   return (
-    <div>
-      <h1>Home</h1>
-      <div>
-        <button onClick={() => navigate("/GitHubViewer")}>
-          Go to GitHubViewer ,for all public repos of an account
-        </button>
-      </div>
-      <div>
-        <button onClick={() => navigate("/GitHubRepoViewer")}>
-          Go to public GitHub repo viewer
-        </button>
-      </div>
-      <div>
-        <button onClick={() => navigate("/PrivateGitHubRepoViewer")}>
-          Go to private GitHub repo viewer
-        </button>
-      </div>
-      <div>
-        {/* <button onClick={() => navigate('/GitHubRepoViewerv2')}>Go to GitHub Viewer V2</button> */}
-      </div>
-      <div>
-        {/* <button onClick={() => navigate('/githubViewerV3')}>Go to GitHub Viewer V3</button> */}
-      </div>
-      <div>
-        <button onClick={() => navigate("/generateReadme")}>
-          Go to Generate Readme
-        </button>
-      </div>
-      {/* <div>
-        <button onClick={() => navigate("/test")}>Go to test</button>
-      </div> */}
-      <div>
-        {/* <button onClick={() => navigate('/Llmcall')}>Go to llmcall</button> */}
-      </div>
-      <div>
-        {/* <button onClick={() => navigate("/ChatBot")}>
-          Go to Chatbot createdby ania
-        </button> */}
-      </div>
-      <div>
-        <button onClick={() => navigate("/md")}>Go to markdown editor</button>
+    <div className="min-h-screen bg-gray-100 p-6">
+      <h1 className="text-3xl font-bold text-center mb-8 text-blue-600">
+        Home
+      </h1>
+      <div className="max-w-4xl mx-auto space-y-4">
+        {Object.entries(FRONTEND_ROUTES).map(([key, path]) => (
+          <div
+            key={key}
+            className="flex justify-between items-center p-4 bg-white shadow-md rounded-lg"
+          >
+            <span className="text-lg font-medium text-gray-700">{key}</span>
+            <button
+              onClick={() => navigate(path)}
+              className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-200"
+            >
+              Go to {path}
+            </button>
+          </div>
+        ))}
       </div>
     </div>
   );
-}
+};
 
-export default Home
+export default Home;

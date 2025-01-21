@@ -1,16 +1,16 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useState } from 'react';
+import axios from 'axios';
 
 function GitHubRepoViewer() {
-  const [repoUrl, setRepoUrl] = useState("");
+  const [repoUrl, setRepoUrl] = useState('');
   const [repoContents, setRepoContents] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [accessToken, setAccessToken] = useState("");
-  const [error, setError] = useState("");
+  const [accessToken, setAccessToken] = useState('');
+  const [error, setError] = useState('');
 
-  const fetchRepoContents = async (owner, repo, path = "") => {
+  const fetchRepoContents = async (owner, repo, path = '') => {
     setLoading(true);
-    setError("");
+    setError('');
     try {
       const response = await axios.get(
         `https://api.github.com/repos/${owner}/${repo}/contents/${path}`,
@@ -27,13 +27,13 @@ function GitHubRepoViewer() {
         type: item.type,
         path: item.path,
         contents: [],
-        isExpandable: item.type === "dir",
+        isExpandable: item.type === 'dir',
         isExpanded: false,
       }));
 
       return processedContents;
     } catch (error) {
-      setError("Failed to fetch repository contents. Check your URL or token.");
+      setError('Failed to fetch repository contents. Check your URL or token.');
       return [];
     } finally {
       setLoading(false);
@@ -50,7 +50,7 @@ function GitHubRepoViewer() {
       const contents = await fetchRepoContents(owner, repo);
       setRepoContents(contents);
     } else {
-      setError("Invalid GitHub repository URL");
+      setError('Invalid GitHub repository URL');
       setRepoContents([]);
     }
   };
@@ -75,8 +75,8 @@ function GitHubRepoViewer() {
 
   const toggleExpand = async (item) => {
     if (item.isExpandable && !item.isExpanded) {
-      const owner = repoUrl.split("/")[3];
-      const repo = repoUrl.split("/")[4];
+      const owner = repoUrl.split('/')[3];
+      const repo = repoUrl.split('/')[4];
       const path = item.path;
 
       const expandedContents = await fetchRepoContents(owner, repo, path);
@@ -96,7 +96,7 @@ function GitHubRepoViewer() {
       <ul className="pl-5 list-disc">
         {contents.map((item) => (
           <li key={item.path} className="my-1">
-            {item.type === "file" ? (
+            {item.type === 'file' ? (
               <span className="text-gray-700">{item.name}</span>
             ) : (
               <div>
@@ -104,7 +104,7 @@ function GitHubRepoViewer() {
                   className="text-blue-500 cursor-pointer hover:underline"
                   onClick={() => toggleExpand(item)}
                 >
-                  {item.isExpanded ? "[-] " : "[+] "}
+                  {item.isExpanded ? '[-] ' : '[+] '}
                   {item.name}/
                 </span>
                 {item.isExpanded && renderContents(item.contents)}

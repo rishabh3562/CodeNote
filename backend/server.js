@@ -16,7 +16,7 @@ connectDB();
 app.use('/api/code', llmRoutes);
 const port = process.env.PORT || 3000;
 app.get('/', (req, res) => {
-    res.json('Hello World!');
+  res.json('Hello World!');
 });
 
 const origin1 = process.env.ORIGIN1?.replace(/\/+$/, ''); // Remove trailing slash
@@ -26,10 +26,10 @@ const origin3 = process.env.ORIGIN3?.replace(/\/+$/, '');
 const allowedOrigins = [origin1, origin2, origin3].filter(Boolean); // Filter out any undefined values
 
 app.use(cors());
-app.get("/test", (req, res) => {
-    res.json("Hello World!");
-})
+app.get('/test', (req, res) => {
+  res.json('Hello World!');
+});
 
 app.listen(port, () => {
-    console.log(`Server running on port http://localhost:${port}/`);
+  console.log(`Server running on port http://localhost:${port}/`);
 });

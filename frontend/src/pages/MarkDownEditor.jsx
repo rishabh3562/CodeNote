@@ -1,18 +1,18 @@
 // src/MarkdownEditor.js
-import React, { useState } from "react";
-import ReactMarkdown from "react-markdown";
-import gfm from "remark-gfm"; // GitHub Flavored Markdown
-import "tailwindcss/tailwind.css"; // Tailwind CSS
-import rehypeRaw from "rehype-raw";
+import React, { useState } from 'react';
+import ReactMarkdown from 'react-markdown';
+import gfm from 'remark-gfm'; // GitHub Flavored Markdown
+import 'tailwindcss/tailwind.css'; // Tailwind CSS
+import rehypeRaw from 'rehype-raw';
 const MarkdownEditor = () => {
-  const [markdown, setMarkdown] = useState("");
+  const [markdown, setMarkdown] = useState('');
 
   const handleChange = (e) => {
     setMarkdown(e.target.value);
   };
 
   const insertAtCursor = (text) => {
-    const textarea = document.getElementById("markdown-input");
+    const textarea = document.getElementById('markdown-input');
     const startPos = textarea.selectionStart;
     const endPos = textarea.selectionEnd;
     const newMarkdown =
@@ -30,55 +30,55 @@ const MarkdownEditor = () => {
       {/* Toolbar */}
       <div className="mb-4">
         <button
-          onClick={() => insertAtCursor("**bold**")}
+          onClick={() => insertAtCursor('**bold**')}
           className="p-2 bg-gray-200 hover:bg-gray-300 rounded mr-2"
         >
           Bold
         </button>
         <button
-          onClick={() => insertAtCursor("_italic_")}
+          onClick={() => insertAtCursor('_italic_')}
           className="p-2 bg-gray-200 hover:bg-gray-300 rounded mr-2"
         >
           Italic
         </button>
         <button
-          onClick={() => insertAtCursor("# Heading 1\n")}
+          onClick={() => insertAtCursor('# Heading 1\n')}
           className="p-2 bg-gray-200 hover:bg-gray-300 rounded mr-2"
         >
           H1
         </button>
         <button
-          onClick={() => insertAtCursor("## Heading 2\n")}
+          onClick={() => insertAtCursor('## Heading 2\n')}
           className="p-2 bg-gray-200 hover:bg-gray-300 rounded mr-2"
         >
           H2
         </button>
         <button
-          onClick={() => insertAtCursor("1. List item\n")}
+          onClick={() => insertAtCursor('1. List item\n')}
           className="p-2 bg-gray-200 hover:bg-gray-300 rounded mr-2"
         >
           Numbered List
         </button>
         <button
-          onClick={() => insertAtCursor("- List item\n")}
+          onClick={() => insertAtCursor('- List item\n')}
           className="p-2 bg-gray-200 hover:bg-gray-300 rounded mr-2"
         >
           Bullet List
         </button>
         <button
-          onClick={() => insertAtCursor("`code`\n")}
+          onClick={() => insertAtCursor('`code`\n')}
           className="p-2 bg-gray-200 hover:bg-gray-300 rounded mr-2"
         >
           Code
         </button>
         <button
-          onClick={() => insertAtCursor("![alt text](image-url)\n")}
+          onClick={() => insertAtCursor('![alt text](image-url)\n')}
           className="p-2 bg-gray-200 hover:bg-gray-300 rounded mr-2"
         >
           Image
         </button>
         <button
-          onClick={() => insertAtCursor("[Link](url)\n")}
+          onClick={() => insertAtCursor('[Link](url)\n')}
           className="p-2 bg-gray-200 hover:bg-gray-300 rounded mr-2"
         >
           Link

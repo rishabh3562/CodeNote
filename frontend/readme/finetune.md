@@ -3,6 +3,7 @@ In the context of your `llm.js` code, the parameters `temperature` and `maxRetri
 ### Parameters Explained
 
 1. **`temperature`**:
+
    - **Definition**: This parameter controls the randomness of the model's output.
    - **Range**: Typically between `0` and `1`.
      - **0**: The model will produce more deterministic and focused responses, often repeating the same output for the same input.
@@ -31,10 +32,11 @@ In addition to `temperature` and `maxRetries`, here are some other common parame
   - **Usage**: A value between `0` and `2`. Higher values encourage the model to explore new concepts rather than sticking to familiar ones.
 
 ### Example Configuration
+
 Here’s how these parameters might look in your code:
 
-
 ### Example Configuration
+
 Here’s how these parameters might look in your code:
 
 ```javascript:frontend/llm.js
@@ -51,4 +53,5 @@ const llm = new ChatGoogleGenerativeAI({
 ```
 
 ### Conclusion
+
 These parameters allow you to customize the behavior of the AI model to better suit your specific needs and use cases. Adjusting them can significantly impact the quality and relevance of the generated responses.

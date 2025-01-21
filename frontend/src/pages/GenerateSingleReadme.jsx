@@ -1,19 +1,19 @@
-import React, { useState } from "react";
-import { useGenerateReadme } from "../hooks/useGenerateReadme";
-import ReactMarkdown from "react-markdown";
-import { unified } from "unified";
-import remarkParse from "remark-parse";
-import remarkStringify from "remark-stringify";
-import rehypeRaw from "rehype-raw";
-import rehypePrism from "rehype-prism-plus";
-import remarkGfm from "remark-gfm";
-import "github-markdown-css"; // GitHub Markdown CSS for consistent markdown styling
-import "prismjs/themes/prism-tomorrow.css"; // Prism theme for code block syntax highlighting
-import { Puff } from "react-loader-spinner"; // Loader component
+import React, { useState } from 'react';
+import { useGenerateReadme } from '../hooks/useGenerateReadme';
+import ReactMarkdown from 'react-markdown';
+import { unified } from 'unified';
+import remarkParse from 'remark-parse';
+import remarkStringify from 'remark-stringify';
+import rehypeRaw from 'rehype-raw';
+import rehypePrism from 'rehype-prism-plus';
+import remarkGfm from 'remark-gfm';
+import 'github-markdown-css'; // GitHub Markdown CSS for consistent markdown styling
+import 'prismjs/themes/prism-tomorrow.css'; // Prism theme for code block syntax highlighting
+import { Puff } from 'react-loader-spinner'; // Loader component
 
 function GenerateReadmeComponent() {
-  const [code, setCode] = useState("");
-  const [markdownContent, setMarkdownContent] = useState("");
+  const [code, setCode] = useState('');
+  const [markdownContent, setMarkdownContent] = useState('');
 
   // Define onSuccess callback for mutation
   const onSuccess = (data) => {
@@ -25,7 +25,7 @@ function GenerateReadmeComponent() {
       .use(remarkStringify, { gfm: true }) // Enabled GitHub Flavored Markdown (GFM)
       .process(readmeData)
       .then((file) => {
-        const cleanedMarkdown = String(file).replace(/\n{2,}/g, "\n\n"); // Clean unnecessary new lines
+        const cleanedMarkdown = String(file).replace(/\n{2,}/g, '\n\n'); // Clean unnecessary new lines
         setMarkdownContent(cleanedMarkdown);
       });
   };
@@ -58,12 +58,12 @@ function GenerateReadmeComponent() {
         />
         <button
           className={`w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold py-2 rounded-lg shadow-lg transition duration-200 ${
-            isGenerating ? "opacity-50 cursor-not-allowed" : ""
+            isGenerating ? 'opacity-50 cursor-not-allowed' : ''
           }`}
           onClick={handleGenerate}
           disabled={isGenerating}
         >
-          {isGenerating ? "Generating..." : "Generate README"}
+          {isGenerating ? 'Generating...' : 'Generate README'}
         </button>
 
         {/* Show loader if generating */}
@@ -81,7 +81,7 @@ function GenerateReadmeComponent() {
       <div className="markdown-body bg-white p-6 border rounded-lg shadow-md overflow-auto max-h-screen">
         <h3 className="text-2xl font-bold mb-4">Generated README:</h3>
         {markdownContent ? (
-          <ReactMarkdown rehypePlugins={[rehypeRaw, rehypePrism] }>
+          <ReactMarkdown rehypePlugins={[rehypeRaw, rehypePrism]}>
             {markdownContent}
           </ReactMarkdown>
         ) : (

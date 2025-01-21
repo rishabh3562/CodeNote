@@ -1,30 +1,31 @@
 # CodeNote.ai
 
 ## Overview
+
 This project is designed to analyze code repositories, generate accurate and structured documentation, and create context summaries for code flow that can be passed to agents like ChatGPT or Gemini. It provides features like repository fetching, automatic documentation generation, and prompt context creation for analysis, ensuring lightweight performance and high accuracy.
 
 ## Features
+
 - **Repository Fetching**: Seamlessly pull repositories from GitHub, track file changes, and refetch only modified files.
 - **Automatic Documentation**: Generate detailed and structured documentation for the entire codebase, following the file structure or custom formats.
 - **Context Creation**: Analyze the codebase to generate context that summarizes functions, states, and actions, which can be passed to AI agents for further analysis.
 - **Efficient & Lightweight**: Designed for performance and accuracy with minimal overhead.
 
 ## Tech Stack
-- **Frontend**: 
+
+- **Frontend**:
   - [React](https://reactjs.org/)
   - [TailwindCSS](https://tailwindcss.com/)
-  
-- **Backend**: 
+- **Backend**:
   - [Node.js](https://nodejs.org/en/)
   - [Express.js](https://expressjs.com/)
   - [MongoDB](https://www.mongodb.com/)
-  
 
-  
 ## Folder Structure
+
 ```
 
-|── backend/                
+|── backend/
 |    |── api/
 |    |    |── gateway/            # Handles routing, authentication, and API versioning
 |    |    │   ├── src/
@@ -66,7 +67,7 @@ This project is designed to analyze code repositories, generate accurate and str
 |    ├── monitoring/             # Monitoring and logging
 |    │   ├── metricsConfig.js    # Monitoring setup (Prometheus, Grafana)
 |    │   └── logger.js           # Centralized logging
-|    ├── docker-compose.yml  
+|    ├── docker-compose.yml
 |    └── package.json
 |
 ├── frontend/
@@ -79,7 +80,7 @@ This project is designed to analyze code repositories, generate accurate and str
     |    ├── pages/              # Pages for Next.js or React routes
     |    ├── services/           # Frontend services (repo fetch, docs generation)
     |    ├── styles/             # Stylesheets (TailwindCSS)
-    |    ├── utils               
+    |    ├── utils
     |    ├── .env
     |    ├── App.css
     |    ├── App.jsx
@@ -93,6 +94,6 @@ This project is designed to analyze code repositories, generate accurate and str
     ├──postcss.config.js
     ├──README.md
     ├──tailwind.config.js
-    └──vite.config.js    
+    └──vite.config.js
 
- ```
+```
