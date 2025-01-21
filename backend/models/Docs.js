@@ -1,7 +1,11 @@
 import mongoose from 'mongoose';
 
 const docSchema = new mongoose.Schema({
-  repoId: { type: mongoose.Schema.Types.ObjectId, ref: 'Repo', required: true },
+  repoId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Repo',
+    required: true,
+  },
   filePath: { type: String, required: true },
   content: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },

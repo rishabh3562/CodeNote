@@ -38,9 +38,9 @@ const gemini = async (req, res) => {
     res.json({ msg: 'success', data: readmeContent });
   } catch (error) {
     console.error(error);
-    res
-      .status(500)
-      .json({ error: error.message || 'Error generating README.' });
+    res.status(500).json({
+      error: error.message || 'Error generating README.',
+    });
   }
 };
 const generateReadme = async (req, res) => {
@@ -52,9 +52,9 @@ const generateReadme = async (req, res) => {
     res.json({ msg: 'success', data: readmeContent });
   } catch (error) {
     console.error(error);
-    res
-      .status(500)
-      .json({ error: error.message || 'Error generating README.' });
+    res.status(500).json({
+      error: error.message || 'Error generating README.',
+    });
   }
 };
 

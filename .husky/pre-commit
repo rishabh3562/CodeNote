@@ -2,8 +2,8 @@
 . "$(dirname "$0")/_/husky.sh"
 
 # npx lint-staged
-
-# npx prettier --check .
+npx eslint --fix .
+npx prettier --write .
 
 
 # #!/usr/bin/env sh

@@ -1,12 +1,10 @@
-import { mongoose } from '../core/mongodb.js'; // Changed to import
+// Changed to import
 import mongoose from 'mongoose';
-const { Schema } = mongoose;
 
-
-const vectorSchema = new Schema({
-    repoId: { type: String }, // ID of the repository
-    filePath: { type: String }, // Path to the file
-    vector: { type: Array, default: [] }, // Vector representation of the file
+const vectorSchema = new mongoose.Schema({
+  repoId: { type: String }, // ID of the repository
+  filePath: { type: String }, // Path to the file
+  vector: { type: Array, default: [] }, // Vector representation of the file
 });
 
 export default mongoose.model('Vector', vectorSchema); // Changed to export default
