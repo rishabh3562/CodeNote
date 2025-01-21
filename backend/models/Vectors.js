@@ -1,5 +1,7 @@
 import { mongoose } from '../core/mongodb.js'; // Changed to import
-import { Schema } from mongoose;
+import mongoose from 'mongoose';
+const { Schema } = mongoose;
+
 
 const vectorSchema = new Schema({
     repoId: { type: String }, // ID of the repository
