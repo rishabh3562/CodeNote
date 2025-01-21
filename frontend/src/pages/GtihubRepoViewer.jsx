@@ -102,7 +102,7 @@ function GitHubRepoViewer() {
                     onClick={() => toggleExpand(item)}
                     className="text-blue-500 font-medium"
                   >
-                           {item.isExpanded ? '[-] ' : '[+] '}
+                    {item.isExpanded ? '[-] ' : '[+] '}
                     {item.name}/
                   </span>
                   {item.isExpanded && (
