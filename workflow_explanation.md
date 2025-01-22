@@ -1,5 +1,3 @@
-
-
 ### Content:
 
 # Workflow Explanation: Commitlint, ESLint, Lint-Staged, and Husky
@@ -17,6 +15,7 @@ Commitlint ensures that all commit messages follow a defined convention for bett
   - Subject limit: Commit message summaries are restricted to 72 characters.
 
 ### Workflow:
+
 1. Write your commit message following the defined format.
 2. Commitlint will validate the message during `git commit`.
 3. Errors will block the commit process.
@@ -33,6 +32,7 @@ ESLint analyzes your code for potential issues like unused variables, improper s
   - Integrates Prettier for formatting rules (`error` level).
 
 ### Workflow:
+
 1. Run ESLint manually:
    ```bash
    npm run lint
@@ -57,6 +57,7 @@ Prettier is set up to standardize the formatting of your code.
   - Ignores directories like `node_modules`, `build`, and `dist`.
 
 ### Workflow:
+
 1. Prettier formats staged files before commits using Lint-Staged.
 2. For manual formatting:
    ```bash
@@ -75,6 +76,7 @@ Lint-Staged runs specified linters only on files staged for commit.
   - Applies Prettier to all file types.
 
 ### Workflow:
+
 1. Stage your changes:
    ```bash
    git add .
@@ -97,6 +99,7 @@ Husky automates Git hooks for pre-commit and commit-msg checks.
   - Commit-msg: Validates commit messages with Commitlint.
 
 ### Workflow:
+
 1. During `git commit`, Husky triggers:
    - **Pre-commit**: Fixes and formats code with ESLint and Prettier.
    - **Commit-msg**: Validates the commit message.
@@ -107,6 +110,7 @@ Husky automates Git hooks for pre-commit and commit-msg checks.
 ## Summary
 
 This workflow ensures:
+
 - Proper commit messages with Commitlint.
 - High code quality with ESLint.
 - Consistent formatting with Prettier.
@@ -114,4 +118,7 @@ This workflow ensures:
 - Automated Git hooks with Husky.
 
 By following these practices, developers maintain a clean, standardized, and efficient codebase.
+
+```
+
 ```
