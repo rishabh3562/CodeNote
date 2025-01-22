@@ -1,9 +1,9 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-# npx lint-staged
 npx eslint --fix .
 npx prettier --write .
+git add .
 
 
 # #!/usr/bin/env sh

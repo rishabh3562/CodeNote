@@ -8,7 +8,7 @@ This document explains the tools and practices set up in the project to ensure c
 
 Commitlint ensures that all commit messages follow a defined convention for better collaboration and traceability. The project uses the **Conventional Commits** format.
 
-- **Purpose**: Prevents poorly written commit messages.
+-                  **Purpose**: Prevents poorly written commit messages.
 - **Key Configuration**:
   - Allowed types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`, etc.
   - Scopes for modularity, e.g., `auth`, `UI`, `format`.
