@@ -1,19 +1,18 @@
 export default {
   extends: ['@commitlint/config-conventional'],
   rules: {
-    // Customize rules here
     'type-enum': [
       2,
       'always',
-      ['feat', 'fix', 'chore', 'docs', 'style', 'refactor', 'test', 'UI'],
+      ['feat', 'fix', 'chore', 'docs', 'style', 'refactor', 'test', 'ui'], // Custom types
     ],
     'scope-enum': [
-      1,
+      1, // Warning level for scope
       'always',
-      ['auth', 'button', 'UI', 'format'], // You can add your custom scopes here like 'UI'
+      ['auth', 'button', 'ui', 'format'], // Custom scopes
     ],
-    // Custom rule for max subject length (default is 100)
-    'subject-max-length': [2, 'always', 72],
+    'subject-max-length': [2, 'always', 72], // Subject length limit
+    'scope-case': [2, 'always', 'lower-case'], // Ensure lowercase scopes
   },
 };
 
