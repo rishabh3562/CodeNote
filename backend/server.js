@@ -6,6 +6,7 @@ import llmRoutes from './routes/llmRoutes.js'; // Added .js extension
 import connectDB from './config/db.js'; // Added .js extension
 import cors from 'cors'; // Importing CORS
 import dotenv from 'dotenv';
+import documentationRoutes from './routes/documentationRoutes.js'; // Added .js extension
 dotenv.config();
 
 const app = express();
@@ -29,6 +30,9 @@ app.use(cors());
 app.get('/test', (req, res) => {
   res.json('Hello World!');
 });
+
+//routes 
+app.use('/api/documentation' , documentationRoutes)
 
 app.listen(port, () => {
   console.log(`Server running on port http://localhost:${port}/`);

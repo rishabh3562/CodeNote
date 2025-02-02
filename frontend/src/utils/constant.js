@@ -26,6 +26,7 @@ export const FRONTEND_ROUTES = {
   PRIVATE_GITHUB_REPO_VIEWER: '/private-github-repo-viewer', // Private GitHub Repo Viewer
   MARKDOWN_EDITOR: '/markdown-editor', // Markdown editor page
   NOT_FOUND: '*', // Fallback for undefined routes
+  DOCUMENTATION: '/documentation', // Documentation page
 };
 
 export const FRONTEND_BASE_URL =
