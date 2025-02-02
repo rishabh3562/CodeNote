@@ -3,6 +3,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './index.css';
 import { FRONTEND_ROUTES } from './utils/constant';
 import { Wrapper } from './components/SuspenseWrapper';
+import Documentation from './pages/Documentation';
 
 const MarkdownEditor = lazy(() => import('./pages/MarkDownEditor'));
 const Home = lazy(() => import('./pages/Home'));
@@ -50,6 +51,10 @@ const WebRouter = createBrowserRouter([
   {
     path: FRONTEND_ROUTES.MARKDOWN_EDITOR,
     element: <Wrapper element={<MarkdownEditor />} />,
+  },
+  {
+    path: FRONTEND_ROUTES.DOCUMENTATION,
+    element: <Wrapper element={<Documentation />} />,
   },
   {
     path: FRONTEND_ROUTES.NOT_FOUND,
