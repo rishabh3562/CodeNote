@@ -14,6 +14,7 @@ const PrivateGitHubRepoViewer = lazy(
 );
 const GenerateReadme = lazy(() => import('./pages/GenerateSingleReadme'));
 const NotFound = lazy(() => import('./pages/NotFound'));
+const UserStats = lazy(() => import('./pages/UserStats'));
 
 const Test = () => {
   return (
@@ -59,6 +60,10 @@ const WebRouter = createBrowserRouter([
   {
     path: FRONTEND_ROUTES.NOT_FOUND,
     element: <Wrapper element={<NotFound />} />,
+  },
+  {
+    path: FRONTEND_ROUTES.STATS,
+    element: <Wrapper element={<UserStats />} />,
   },
 ]);
 
