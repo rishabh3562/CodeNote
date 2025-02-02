@@ -31,8 +31,8 @@ app.get('/test', (req, res) => {
   res.json('Hello World!');
 });
 
-//routes 
-app.use('/api/documentation' , documentationRoutes)
+//routes
+app.use('/api/documentation', documentationRoutes);
 
 app.listen(port, () => {
   console.log(`Server running on port http://localhost:${port}/`);

@@ -1,7 +1,18 @@
 import React, { useState } from 'react';
-import { FaFolder, FaFolderOpen, FaFile, FaChevronDown, FaChevronRight } from 'react-icons/fa';
+import {
+  FaFolder,
+  FaFolderOpen,
+  FaFile,
+  FaChevronDown,
+  FaChevronRight,
+} from 'react-icons/fa';
 
-const FileExplorer = ({ files, onFileSelect, selectedFiles, onFileContent }) => {
+const FileExplorer = ({
+  files,
+  onFileSelect,
+  selectedFiles,
+  onFileContent,
+}) => {
   const [expandedFolders, setExpandedFolders] = useState(new Set());
 
   const toggleFolder = (path) => {
@@ -27,7 +38,7 @@ const FileExplorer = ({ files, onFileSelect, selectedFiles, onFileContent }) => 
 
     return (
       <div className="select-none">
-        <div 
+        <div
           className={`flex items-center gap-2 p-1 hover:bg-gray-200 rounded cursor-pointer ${
             isSelected ? 'bg-blue-100' : ''
           }`}
@@ -35,26 +46,28 @@ const FileExplorer = ({ files, onFileSelect, selectedFiles, onFileContent }) => 
           onClick={() => handleFileSelect(item)}
         >
           {item.type === 'dir' && (
-            <span 
+            <span
               onClick={(e) => {
                 e.stopPropagation();
                 toggleFolder(item.path);
               }}
               className="w-4"
             >
-              {isExpanded ? 
-                <FaChevronDown className="text-gray-500" /> : 
+              {isExpanded ? (
+                <FaChevronDown className="text-gray-500" />
+              ) : (
                 <FaChevronRight className="text-gray-500" />
-              }
+              )}
             </span>
           )}
-          
+
           {item.type === 'dir' ? (
             <>
-              {isExpanded ? 
-                <FaFolderOpen className="text-yellow-500" /> : 
+              {isExpanded ? (
+                <FaFolderOpen className="text-yellow-500" />
+              ) : (
                 <FaFolder className="text-yellow-500" />
-              }
+              )}
               <span className="font-medium">{item.name}</span>
             </>
           ) : (
@@ -69,11 +82,7 @@ const FileExplorer = ({ files, onFileSelect, selectedFiles, onFileContent }) => 
         {item.type === 'dir' && isExpanded && item.children && (
           <div className="ml-2">
             {item.children.map((child) => (
-              <FileItem 
-                key={child.path} 
-                item={child} 
-                depth={depth + 1}
-              />
+              <FileItem key={child.path} item={child} depth={depth + 1} />
             ))}
           </div>
         )}

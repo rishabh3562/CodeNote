@@ -3,21 +3,20 @@ import mongoose from 'mongoose';
 const DocumentationSchema = new mongoose.Schema({
   repositoryUrl: {
     type: String,
-    required: true
+    required: true,
   },
   generatedDocs: {
     type: String,
-    required: true
+    required: true,
   },
   techStack: {
     languages: [String],
-    frameworks: [String]
+    frameworks: [String],
   },
   createdAt: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
-
 
 export default mongoose.model('Documentation', DocumentationSchema);

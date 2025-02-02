@@ -3,10 +3,7 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 import axios from 'axios';
 import dotenv from 'dotenv';
 
-
 dotenv.config();
-
-
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
@@ -16,7 +13,7 @@ const detectTechStack = (files) => {
   const techStack = {
     languages: new Set(),
     frameworks: new Set(),
-    packageManager: null
+    packageManager: null,
   };
 
   const processFile = (file) => {
@@ -34,20 +31,20 @@ const detectTechStack = (files) => {
 
   // Detect languages
   const extensionToLanguage = {
-    'js': 'JavaScript',
-    'jsx': 'JavaScript (React)',
-    'ts': 'TypeScript',
-    'tsx': 'TypeScript (React)',
-    'vue': 'Vue.js',
-    'cpp': 'C++',
-    'c': 'C',
-    'java': 'Java',
-    'py': 'Python',
-    'rb': 'Ruby',
-    'php': 'PHP',
-    'sol': 'Solidity',
-    'go': 'Go',
-    'rs': 'Rust',
+    js: 'JavaScript',
+    jsx: 'JavaScript (React)',
+    ts: 'TypeScript',
+    tsx: 'TypeScript (React)',
+    vue: 'Vue.js',
+    cpp: 'C++',
+    c: 'C',
+    java: 'Java',
+    py: 'Python',
+    rb: 'Ruby',
+    php: 'PHP',
+    sol: 'Solidity',
+    go: 'Go',
+    rs: 'Rust',
     // Add more as needed
   };
 
@@ -56,7 +53,7 @@ const detectTechStack = (files) => {
     'package.json': (content) => {
       const pkg = JSON.parse(content);
       const deps = { ...pkg.dependencies, ...pkg.devDependencies };
-      
+
       if (deps.react) techStack.frameworks.add('React.js');
       if (deps.angular) techStack.frameworks.add('Angular');
       if (deps.vue) techStack.frameworks.add('Vue.js');
@@ -70,7 +67,7 @@ const detectTechStack = (files) => {
     'svelte.config.js': () => techStack.frameworks.add('Svelte'),
   };
 
-  fileExtensions.forEach(ext => {
+  fileExtensions.forEach((ext) => {
     if (extensionToLanguage[ext]) {
       techStack.languages.add(extensionToLanguage[ext]);
     }
@@ -117,7 +114,7 @@ const getSpecificPrompts = (techStack) => {
   };
 
   return Array.from(techStack.languages)
-    .map(lang => prompts[lang] || '')
+    .map((lang) => prompts[lang] || '')
     .join('\n');
 };
 
@@ -126,18 +123,19 @@ const documentationController = {
   async fetchRepository(req, res) {
     try {
       const { repoUrl } = req.body;
-      
+
       const urlParts = repoUrl
         .replace('https://github.com/', '')
         .replace('http://github.com/', '')
         .split('/');
-      
+
       const owner = urlParts[0];
       const repo = urlParts[1];
 
       if (!owner || !repo) {
-        return res.status(400).json({ 
-          message: 'Invalid repository URL. Format should be: https://github.com/owner/repo' 
+        return res.status(400).json({
+          message:
+            'Invalid repository URL. Format should be: https://github.com/owner/repo',
         });
       }
 
@@ -146,11 +144,11 @@ const documentationController = {
           `https://api.github.com/repos/${owner}/${repo}/contents/${path}`,
           {
             headers: {
-              'Accept': 'application/vnd.github.v3+json',
+              Accept: 'application/vnd.github.v3+json',
               ...(process.env.GITHUB_TOKEN && {
-                'Authorization': `token ${process.env.GITHUB_TOKEN}`
-              })
-            }
+                Authorization: `token ${process.env.GITHUB_TOKEN}`,
+              }),
+            },
           }
         );
 
@@ -160,7 +158,7 @@ const documentationController = {
               name: item.name,
               path: item.path,
               type: item.type,
-              url: item.download_url
+              url: item.download_url,
             };
 
             if (item.type === 'dir') {
@@ -178,8 +176,10 @@ const documentationController = {
       res.json(files);
     } catch (error) {
       console.error('GitHub API Error:', error.response?.data || error.message);
-      res.status(error.response?.status || 500).json({ 
-        message: error.response?.data?.message || 'Failed to fetch repository contents'
+      res.status(error.response?.status || 500).json({
+        message:
+          error.response?.data?.message ||
+          'Failed to fetch repository contents',
       });
     }
   },
@@ -188,7 +188,7 @@ const documentationController = {
   async generateDocumentation(req, res) {
     try {
       const { files, repoUrl } = req.body;
-      const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+      const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
 
       // Use the standalone functions instead of this.detectTechStack
       const techStack = detectTechStack(files);
@@ -258,8 +258,8 @@ const documentationController = {
         generatedDocs: documentation,
         techStack: {
           languages: Array.from(techStack.languages),
-          frameworks: Array.from(techStack.frameworks)
-        }
+          frameworks: Array.from(techStack.frameworks),
+        },
       });
       await newDoc.save();
 
@@ -278,11 +278,11 @@ const documentationController = {
         `https://api.github.com/repos/${owner}/${repo}/contents/${path}`,
         {
           headers: {
-            'Accept': 'application/vnd.github.v3+json',
+            Accept: 'application/vnd.github.v3+json',
             ...(process.env.GITHUB_TOKEN && {
-              'Authorization': `token ${process.env.GITHUB_TOKEN}`
-            })
-          }
+              Authorization: `token ${process.env.GITHUB_TOKEN}`,
+            }),
+          },
         }
       );
 
@@ -291,11 +291,74 @@ const documentationController = {
       res.json({ content });
     } catch (error) {
       console.error('GitHub API Error:', error.response?.data || error.message);
-      res.status(error.response?.status || 500).json({ 
-        message: error.response?.data?.message || 'Failed to fetch file content'
+      res.status(error.response?.status || 500).json({
+        message:
+          error.response?.data?.message || 'Failed to fetch file content',
       });
     }
-  }
+  },
+  async fetchRepoWithoutAuth(req, res) {
+    try {
+      const { repoUrl } = req.body;
+
+      const urlParts = repoUrl
+        .replace(/https?:\/\/github.com\//, '')
+        .split('/');
+      const owner = urlParts[0];
+      const repo = urlParts[1];
+
+      if (!owner || !repo) {
+        return res.status(400).json({
+          message:
+            'Invalid repository URL. Format should be: https://github.com/owner/repo',
+        });
+      }
+
+      async function fetchContents(path = '') {
+        const response = await axios.get(
+          `https://api.github.com/repos/${owner}/${repo}/contents/${path}`,
+          { headers: { Accept: 'application/vnd.github.v3+json' } }
+        );
+
+        const items = await Promise.all(
+          response.data.map(async (item) => {
+            const result = {
+              name: item.name,
+              path: item.path,
+              type: item.type,
+              url: item.download_url,
+            };
+
+            if (item.type === 'dir') {
+              result.children = await fetchContents(item.path);
+            }
+
+            return result;
+          })
+        );
+
+        return items;
+      }
+
+      const files = await fetchContents();
+      res.json(files);
+    } catch (error) {
+      console.error('GitHub API Error:', error.response?.data || error.message);
+
+      if (error.response?.status === 403) {
+        return res.status(403).json({
+          message:
+            'GitHub API rate limit exceeded. Try again later or authenticate with a token.',
+        });
+      }
+
+      res.status(error.response?.status || 500).json({
+        message:
+          error.response?.data?.message ||
+          'Failed to fetch repository contents',
+      });
+    }
+  },
 };
 
 export default documentationController;
